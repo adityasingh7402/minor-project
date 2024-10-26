@@ -17,7 +17,7 @@ export const config = {
 };
 
 const handler = async (req, res) => {
-  if (req.method === 'POST') {
+  if (req.method === 'PUT') { // Change to PUT for update
     const form = new IncomingForm();
     form.keepExtensions = true;
 
@@ -27,10 +27,11 @@ const handler = async (req, res) => {
       }
 
       try {
-        // Extract single values and convert arrays to strings if necessary
         const getStringValue = (field) => Array.isArray(field) ? field[0] : field;
 
+        // Extract fields
         const {
+          _id, // NGO ID for updating
           name,
           email,
           message,
@@ -40,18 +41,21 @@ const handler = async (req, res) => {
           managerContactNo,
           address,
           ngoType,
-          capital,
           websiteLink,
-          password, // New password field
+          password, // Password can be updated
         } = fields;
 
-        // Hash the password using bcryptjs
-        const hashedPassword = await bcrypt.hash(getStringValue(password), 10);
+        // Hash the new password only if it is provided
+        let hashedPassword = null;
+        if (password) {
+          hashedPassword = await bcrypt.hash(getStringValue(password), 10);
+        }
 
-        // Handle file uploads
+        // Handle file uploads for NGO images
         const ngoImagesFiles = files.ngoImages || [];
         const ngoImages = [];
 
+        // Process image uploads
         for (const file of (Array.isArray(ngoImagesFiles) ? ngoImagesFiles : [ngoImagesFiles])) {
           if (file.filepath) {
             const result = await cloudinary.uploader.upload(file.filepath);
@@ -59,26 +63,33 @@ const handler = async (req, res) => {
           }
         }
 
-        // Create and save the new NGO record
-        const newNGO = new NGO_List({
+        // Prepare the update data object
+        const updateData = {
           name: getStringValue(name),
           email: getStringValue(email),
           message: getStringValue(message),
           ngoName: getStringValue(ngoName),
           contactNo: getStringValue(contactNo),
           managerName: getStringValue(managerName),
-          capital: getStringValue(capital),
           managerContactNo: getStringValue(managerContactNo),
           address: getStringValue(address),
           ngoType: getStringValue(ngoType),
-          ngoImages,
           websiteLink: getStringValue(websiteLink),
-          password: hashedPassword, // Store the hashed password
-        });
+          ngoImages: ngoImages.length > 0 ? ngoImages : undefined, // Include images if present
+        };
 
-        await newNGO.save();
+        // Include hashed password if updated
+        if (hashedPassword) {
+          updateData.password = hashedPassword;
+        }
 
-        res.status(200).json({ success: "NGO information saved successfully" });
+        // Update NGO in the database
+        const updatedNGO = await NGO_List.findByIdAndUpdate(_id, updateData, { new: true });
+        if (!updatedNGO) {
+          return res.status(404).json({ error: 'NGO not found' });
+        }
+
+        res.status(200).json({ success: "NGO information updated successfully", updatedNGO });
       } catch (error) {
         res.status(500).json({ error: "Internal server error", details: error.message });
       }

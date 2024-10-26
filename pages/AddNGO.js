@@ -11,6 +11,8 @@ const AddNGO = () => {
   const [managerContactNo, setManagerContactNo] = useState("");
   const [address, setAddress] = useState("");
   const [ngoType, setNgoType] = useState("");
+  const [password, setPassword] = useState("");
+  const [capital, setCapital] = useState("");
   const [ngoImages, setNgoImages] = useState([]);
   const [websiteLink, setWebsiteLink] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -19,14 +21,14 @@ const AddNGO = () => {
 
   useEffect(() => {
     if (
-      name && email && message && ngoName && contactNo && managerName &&
+      name && email && message && ngoName && contactNo && capital && password && managerName &&
       managerContactNo && address && ngoType && ngoImages.length > 0 && websiteLink
     ) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [name, email, message, ngoName, contactNo, managerName, managerContactNo, address, ngoType, ngoImages, websiteLink]);
+  }, [name, email, message, ngoName, password, contactNo, capital, managerName, managerContactNo, address, ngoType, ngoImages, websiteLink]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -49,6 +51,12 @@ const AddNGO = () => {
         break;
       case 'managerName':
         setManagerName(value);
+        break;
+      case 'capital':
+        setCapital(value);
+        break;
+      case 'password':
+        setPassword(value);
         break;
       case 'managerContactNo':
         setManagerContactNo(value);
@@ -81,6 +89,8 @@ const AddNGO = () => {
     formData.append('ngoName', ngoName);
     formData.append('contactNo', contactNo);
     formData.append('managerName', managerName);
+    formData.append('password', password);
+    formData.append('capital', capital);
     formData.append('managerContactNo', managerContactNo);
     formData.append('address', address);
     formData.append('ngoType', ngoType);
@@ -106,11 +116,13 @@ const AddNGO = () => {
       setEmail("");
       setMessage("");
       setNgoName("");
+      setCapital("");
       setContactNo("");
       setManagerName("");
       setManagerContactNo("");
       setAddress("");
       setNgoType("");
+      setPassword("");
       setNgoImages([]);
       setWebsiteLink("");
       setDisabled(true);
@@ -118,7 +130,7 @@ const AddNGO = () => {
       console.log('Success:', result);
       router.push({
         pathname: '/Success',
-        query: { type: 'ngo', name, email, message, ngoName, contactNo, managerName, managerContactNo, address, ngoType, websiteLink },
+        query: { type: 'ngo', name, email, message, ngoName, capital, contactNo, managerName, managerContactNo, address, ngoType, websiteLink },
       });
       // Handle success (e.g., show a success message, reset the form, etc.)
     } catch (error) {
@@ -192,6 +204,32 @@ const AddNGO = () => {
                 placeholder=" "
               />
               <label htmlFor="contactNo" className="input-label">Contact No</label>
+            </div>
+          </div>
+          <div className="flex pb-2 space-x-12">
+            <div className="relative">
+              <input
+                value={password}
+                onChange={handleChange}
+                type="password"
+                id="password"
+                name='password'
+                className="input-field peer"
+                placeholder=" "
+              />
+              <label htmlFor="password" className="input-label">Enter Password</label>
+            </div>
+            <div className="relative">
+              <input
+                value={capital}
+                onChange={handleChange}
+                type="text"
+                id="capital"
+                name='capital'
+                className="input-field peer"
+                placeholder=" "
+              />
+              <label htmlFor="capital" className="input-label">NGO Capital</label>
             </div>
           </div>
 
@@ -298,7 +336,6 @@ const AddNGO = () => {
             />
             <label htmlFor="message" className="input-label">Message</label>
           </div>
-
           <button disabled={disabled || isSubmitting} onClick={handleSubmit} className='font-medium rounded-full disabled:bg-green-500 hover:disabled:text-white disabled:cursor-default bg-green-700 w-52 px-10 py-4 hover:bg-white text-white hover:text-gray-800 border transition-all border-green-700'>
           <h6>{isSubmitting ? "WAIT..." : "ADD NGO"}</h6>
           </button>

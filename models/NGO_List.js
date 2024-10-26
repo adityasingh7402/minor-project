@@ -33,6 +33,14 @@ try {
       type: String,
       required: true
     },
+    password: {
+      type: String,
+      required: true
+    },
+    capital: {
+      type: String,
+      required: true
+    },
     managerContactNo: {
       type: String,
       required: true

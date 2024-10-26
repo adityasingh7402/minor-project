@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 import { useEffect } from "react";
