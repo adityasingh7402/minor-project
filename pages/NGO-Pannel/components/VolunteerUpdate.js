@@ -113,14 +113,14 @@ const VolunteerUpdate = () => {
       {loading ? (
         <p>Loading data...</p>
       ) : (
-        <div>
-          {ngoProfile ? (
-            <div className="mb-6">
-              <h3 className="text-xl font-bold">NGO Profile</h3>
-              <p><strong>Name:</strong> {ngoProfile.name}</p>
-              <p><strong>Email:</strong> {ngoProfile.email}</p>
-              <p><strong>Contact:</strong> {ngoProfile.contactNo}</p>
-            </div>
+          <div>
+            {ngoProfile ? (
+              <div className="mb-6">
+                <h3 className="text-xl font-bold">NGO Profile</h3>
+                <p><strong>Name:</strong> {ngoProfile.name}</p>
+                <p><strong>Email:</strong> {ngoProfile.email}</p>
+                <p><strong>Contact:</strong> {ngoProfile.contactNo}</p>
+              </div>
           ) : (
             <p>No NGO profile found.</p>
           )}
@@ -128,20 +128,22 @@ const VolunteerUpdate = () => {
           {hiredVolunteers.length === 0 ? (
             <p>No hired volunteers found.</p>
           ) : (
-            <ul>
+            <ul className="space-y-4">
               {hiredVolunteers.map((volunteer) => (
-                <li key={volunteer._id} className="p-4 border border-gray-300 rounded-lg mb-3">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h3 className="text-xl font-bold">{volunteer.volunteerProfile?.name}</h3>
-                      <p>Email: {volunteer.volunteerProfile?.email}</p>
-                      <p>Contact: {volunteer.volunteerProfile?.phoneNo}</p>
-                      <p>Hire Date: {new Date(volunteer.hireDate).toLocaleDateString()}</p>
-                      <p><strong>Status:</strong> {volunteer.status}</p> {/* Display Status */}
+                <li key={volunteer._id} className="p-6 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div className="flex justify-between items-start space-x-4">
+                    <div className="flex flex-col space-y-2">
+                      <h3 className="text-2xl font-semibold text-gray-800">{volunteer.volunteerProfile?.name}</h3>
+                      <p className="text-gray-600"><strong>Email:</strong> {volunteer.volunteerProfile?.email}</p>
+                      <p className="text-gray-600"><strong>Contact:</strong> {volunteer.volunteerProfile?.phoneNo}</p>
+                      <p className="text-gray-600"><strong>Hire Date:</strong> {new Date(volunteer.hireDate).toLocaleDateString()}</p>
+                      <p className={`text-sm font-semibold ${volunteer.status === 'Accepted' ? 'text-green-600' : 'text-yellow-600'}`}>
+                        <strong>Status:</strong> {volunteer.status}
+                      </p>
                     </div>
                     <button
                       onClick={() => removeVolunteer(volunteer._id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                      className="bg-red-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-red-700 hover:shadow-xl transition-all duration-300"
                     >
                       Remove
                     </button>
@@ -149,6 +151,7 @@ const VolunteerUpdate = () => {
                 </li>
               ))}
             </ul>
+
           )}
         </div>
       )}

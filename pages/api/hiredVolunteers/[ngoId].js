@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     try {
       const hiredVolunteers = await VolunteerHire.find({ ngoId });
       res.status(200).json(hiredVolunteers);
-      console.log(hiredVolunteers)
+      // console.log(hiredVolunteers)
     } catch (error) {
       console.error('Error fetching hired volunteers:', error);
       res.status(500).json({ error: 'Failed to fetch hired volunteers' });
