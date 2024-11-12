@@ -1,7 +1,7 @@
-// pages/index.js
 import DashboardDefault from "./components/DashboardDefault";
 import { useState, useEffect } from "react";
 import VolunteerDashboard from "./components/volunteerDashboard"
+import MyTask from "./components/MyTask";
 import { useRouter } from 'next/router';
 
 export default function Home() {
@@ -55,6 +55,8 @@ export default function Home() {
         switch (component) {
             case "VolunteerDashboard":
                 return <VolunteerDashboard />;
+            case "MyTask":
+                return <MyTask />;
             case "DashboardDefault":
             default:
                 return <DashboardDefault />;
@@ -81,15 +83,12 @@ export default function Home() {
                             Profile Update
                         </li>
                         <li className="mt-6 font-semibold text-gray-200">Volunteer</li>
-                        {["Volunteer Hire", "Volunteer Update", "Volunteer Task"].map((item) => (
-                            <li
-                                key={item}
-                                className={`mb-2 p-2 rounded cursor-pointer ${activeLink === item ? "bg-green-900" : ""}`}
-                                onClick={() => setActiveLink(item)}
-                            >
-                                {item}
-                            </li>
-                        ))}
+                        <li
+                            className={`mb-2 p-2 rounded cursor-pointer ${activeLink === "MyTask" ? "bg-green-900" : ""}`}
+                            onClick={() => handleComponent("MyTask", "MyTask")}
+                        >
+                            My Task
+                        </li>
                     </ul>
                 </nav>
             </aside>

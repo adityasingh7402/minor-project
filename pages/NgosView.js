@@ -29,18 +29,22 @@ const NgosView = () => {
   }, []);
 
   useEffect(() => {
-    // Filter NGOs based on the search query
-    const filtered = ngos.filter((ngo) =>
-      ngo.ngoName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // Filter NGOs based on approval status and the search query
+    const filtered = ngos
+      .filter(ngo => ngo.approval === 'Approved') // Filter only approved NGOs
+      .filter(ngo =>
+        ngo.ngoName.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by search term
+      );
     setFilteredNgos(filtered);
   }, [searchQuery, ngos]);
 
-  if (loading) return <div className='w-full mb-16'>
-    <div className="container-reload w-96 flex justify-center mx-auto items-center">
-      <img src="reload.gif" alt="" />
+  if (loading) return (
+    <div className='w-full mb-16'>
+      <div className="container-reload w-96 flex justify-center mx-auto items-center">
+        <img src="reload.gif" alt="" />
+      </div>
     </div>
-  </div>;
+  );
 
   return (
     <div className="container-view">
@@ -52,21 +56,24 @@ const NgosView = () => {
           </p>
         </div>
       </div>
-      <div className="container-view-list my-14">
-        <div className="search-conatiner w-full mt-10 mb-5">
-          <div className="flex justify-end pr-20">
-            <input
-              type="text"
-              placeholder="Search NGOs by Name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="p-2 border-b-2 border-green-800 rounded w-96 outline-none"
-            />
-          </div>
-        </div>
 
-        {filteredNgos.length > 0 ? (
-          filteredNgos.map((ngo) => (
+      <div className="search-container w-full mt-10 mb-5">
+        <div className="flex justify-end pr-20">
+          <input
+            type="text"
+            placeholder="Search NGOs by Name"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="p-2 border-b-2 border-green-800 rounded w-96 outline-none"
+          />
+        </div>
+      </div>
+
+      {filteredNgos.length === 0 ? (
+        <p>No NGOs available</p>
+      ) : (
+        <div className="container-view-list my-14">
+          {filteredNgos.map((ngo) => (
             <div key={ngo._id} className="child-list flex justify-start items-center mb-20 shadow-md pb-10" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="1000" data-aos-once="false" data-aos-easing="ease-in-out" data-aos-mirror="true">
               <div className="left-view-con w-2/4 p-3 m-10">
                 <div className="text-details flex justify-center flex-col px-16">
@@ -98,11 +105,9 @@ const NgosView = () => {
                 </div>
               </div>
             </div>
-          ))
-        ) : (
-          <p>No NGOs available</p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -42,19 +42,22 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Save the token in localStorage
-        localStorage.setItem(`${role}Token`, data.token);
-
-        // Redirect to the respective dashboard based on the token present
-        const token = localStorage.getItem('volunteerToken') || localStorage.getItem('ngoToken');
-        const dashboardRoute = token ? (token === data.token ? (role === 'volunteer' ? '/Volunteer-Pannel' : '/NGO-Pannel') : null) : null;
-
-        if (dashboardRoute) {
-          router.push(dashboardRoute).then(() => {
-            // Optionally, force a page reload after redirection
-            window.location.reload();
-          });
-        }
+        // Save the token in localStorage with a role-specific key
+        const tokenKey = `${role}Token`; // e.g., 'volunteerToken', 'ngoToken', 'adminToken'
+        localStorage.setItem(tokenKey, data.token);
+      
+        // Determine the dashboard route based on the selected role
+        const dashboardRoute = role === 'volunteer' 
+          ? '/Volunteer-Pannel' 
+          : role === 'ngo' 
+          ? '/NGO-Pannel' 
+          : '/Admin-Pannel';
+      
+        // Redirect to the determined dashboard route
+        router.push(dashboardRoute).then(() => {
+          // Optionally, force a page reload after redirection
+          window.location.reload();
+        });
       } else {
         setError(data.error || 'Invalid credentials');
       }

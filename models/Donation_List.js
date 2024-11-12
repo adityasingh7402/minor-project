@@ -30,7 +30,13 @@ try {
     donorPurpose: {
       type: String,
       required: true
-    }
+    },
+    approval: {
+      type: String,
+      enum: ['Pending', 'Approved', 'Reject'],
+      default: 'Pending',
+      required: true
+    },
   });
 
   // Ensure index for unique fields is created

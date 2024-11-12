@@ -32,6 +32,7 @@ const handler = async (req, res) => {
         // Extract fields
         const {
           _id, // NGO ID for updating
+          approval, // Approval status to update
           name,
           email,
           message,
@@ -76,6 +77,7 @@ const handler = async (req, res) => {
           ngoType: getStringValue(ngoType),
           websiteLink: getStringValue(websiteLink),
           ngoImages: ngoImages.length > 0 ? ngoImages : undefined, // Include images if present
+          approval: getStringValue(approval), // Add approval state to update
         };
 
         // Include hashed password if updated

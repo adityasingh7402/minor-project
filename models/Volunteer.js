@@ -39,6 +39,12 @@ try {
       type: String,
       required: false, // URL or path to photo, optional
     },
+    approval: {
+      type: String,
+      enum: ['Pending', 'Approved', 'Reject'],
+      default: 'Pending',
+      required: true
+    },
   });
 
   // Ensure index for unique fields is created

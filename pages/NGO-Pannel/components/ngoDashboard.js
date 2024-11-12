@@ -18,7 +18,7 @@ export default function NGOProfile() {
       try {
         const token = localStorage.getItem('ngoToken');
         if (!token) {
-          router.push('/login');
+          router.push('/Login');
           return;
         }
 
@@ -38,7 +38,7 @@ export default function NGOProfile() {
       } catch (error) {
         console.error('Error fetching profile:', error);
         if (error.message === 'Failed to fetch NGO profile') {
-          router.push('/login');
+          router.push('/Login');
         }
       } finally {
         setLoading(false);

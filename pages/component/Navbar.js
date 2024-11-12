@@ -9,6 +9,7 @@ const Navbar = () => {
         // Check for VolunteerToken and NGO Token in localStorage
         const volunteerToken = localStorage.getItem('volunteerToken');
         const ngoToken = localStorage.getItem('ngoToken');
+        const adminToken = localStorage.getItem('adminToken');
 
         if (volunteerToken) {
             setIsLoggedIn(true);
@@ -16,6 +17,10 @@ const Navbar = () => {
         } else if (ngoToken) {
             setIsLoggedIn(true);
             setUserRole('ngo'); // Set role based on token
+        }
+        else if (adminToken) {
+            setIsLoggedIn(true);
+            setUserRole('admin'); // Set role based on token
         } else {
             setIsLoggedIn(false);
             setUserRole(null); // No user role
@@ -56,11 +61,11 @@ const Navbar = () => {
                     </div>
                     <div className="list-menu mr-14 font-medium"><Link className="hover:text-green-600 text-black" href={'/Contact'}>Contact</Link></div>
                     {isLoggedIn ? (
-                        <Link href={userRole === 'volunteer' ? '/Volunteer-Pannel' : '/NGO-Pannel'}>
+                        <Link href={userRole === 'volunteer' ? '/Volunteer-Pannel' : userRole === 'ngo' ? '/NGO-Pannel' : '/Admin-Pannel'}>
                             <button className="button-68" role="button">Dashboard</button>
                         </Link>
                     ) : (
-                        <Link href={'/Login'}>
+                        <Link href="/Login">
                             <button className="button-68 w-24" role="button">Login</button>
                         </Link>
                     )}

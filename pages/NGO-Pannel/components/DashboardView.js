@@ -43,14 +43,6 @@ const VolunteerView = () => {
 
   return (
     <div className="container-view">
-      <div className="image-face w-full relative">
-        <img src="/3.jpg" alt="" className="image-container" />
-        <div className="text-container">
-          <p className="text-5xl text-white" data-aos="fade-down" data-aos-anchor-placement="top-bottom" data-aos-duration="1000" data-aos-once="false" data-aos-easing="ease-in-out" data-aos-mirror="true">
-            VIEW VOLUNTEERS
-          </p>
-        </div>
-      </div>
 
       <div className="search-container w-full mt-10 mb-5">
         <div className="flex justify-end pr-20">
@@ -67,18 +59,18 @@ const VolunteerView = () => {
       {filteredVolunteers.length === 0 ? (
         <p>No Volunteers available</p>
       ) : (
-        <div className="container-view-list my-14">
+        <div className="container-view-list my-5">
           {filteredVolunteers.map((volunteer) => (
-            <div key={volunteer._id} className="child-list flex justify-start items-center mb-20 shadow-md pb-10" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="1000" data-aos-once="false" data-aos-easing="ease-in-out" data-aos-mirror="true">
-              <div className="left-view-con w-2/4 p-3 m-10">
+            <div key={volunteer._id} className="child-list flex justify-start items-center mb-10 shadow-md pb-5" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="1000" data-aos-once="false" data-aos-easing="ease-in-out" data-aos-mirror="true">
+              <div className="left-view-con w-2/4 p-2 m-5">
                 <div className="text-details flex justify-center flex-col px-16">
-                  <h3 className='text-5xl pb-3 border-b font-medium'>{volunteer.name}</h3>
-                  <p className='border-b text-xl mt-3 pb-2'>Personal Details</p>
-                  <p className='pb-2 font-bold'>Contact Number : <span className='font-normal'>{volunteer.phoneNo}</span></p>
-                  <p className='pb-2 font-bold'>Email : <span className='font-normal'>{volunteer.email}</span></p>
-                  <p className='pb-2 font-bold'>Address : <span className='font-normal'>{volunteer.address}</span></p>
-                  <p className='pb-2 font-bold'>Qualification : <span className='font-normal'>{volunteer.qualification}</span></p>
-                  <p className='pb-2 font-bold'>Purpose/Aim : <span className='font-normal'>{volunteer.purposeAim}</span></p>
+                  <h3 className='text-3xl pb-3 border-b font-medium'>{volunteer.name}</h3>
+                  <p className='border-b text-xl mt-3 pb-1'>Personal Details</p>
+                  <p className='pb-1 font-bold'>Contact Number : <span className='font-normal'>{volunteer.phoneNo}</span></p>
+                  <p className='pb-1 font-bold'>Email : <span className='font-normal'>{volunteer.email}</span></p>
+                  <p className='pb-1 font-bold'>Address : <span className='font-normal'>{volunteer.address}</span></p>
+                  <p className='pb-1 font-bold'>Qualification : <span className='font-normal'>{volunteer.qualification}</span></p>
+                  <p className='pb-1 font-bold'>Purpose/Aim : <span className='font-normal'>{volunteer.purposeAim}</span></p>
                 </div>
               </div>
               <div className="right-view-con w-2/4 flex justify-center items-center">

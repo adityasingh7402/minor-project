@@ -26,15 +26,22 @@ const DonationView = () => {
     fetchDonations();
   }, []);
 
-  const filteredDonations = donations.filter(donation =>
-    donation.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter donations that are approved
+  const filteredDonations = donations
+    .filter(donation => donation.approval === 'Approved') // Show only approved donations
+    .filter(donation =>
+      donation.name.toLowerCase().includes(searchTerm.toLowerCase()) // Filter by search term
+    );
 
-  if (loading) return <div className='w-full mb-16'>
-    <div className="container-reload w-96 flex justify-center mx-auto items-center">
-      <img src="reload.gif" alt="" />
-    </div>
-  </div>;
+  if (loading) {
+    return (
+      <div className='w-full mb-16'>
+        <div className="container-reload w-96 flex justify-center mx-auto items-center">
+          <img src="reload.gif" alt="" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container-view">
@@ -77,7 +84,7 @@ const DonationView = () => {
               </div>
               <div className="right-view-con w-2/4 flex justify-center items-center">
                 <div className="slider-image">
-                      <img src={donation.paymentScreenshot} className="w-96 h-96 mx-auto" alt={`Donation Image`} />
+                  <img src={donation.paymentScreenshot} className="w-96 h-96 mx-auto" alt={`Donation Image`} />
                 </div>
               </div>
             </div>
